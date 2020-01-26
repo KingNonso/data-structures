@@ -36,29 +36,58 @@ class BinarySearchTree:
                     break
 
 from collections import deque
+def has_child(node):
+    return True if node.left or node.right else False
+def has_both_child(node):
+    return True if node.left and node.right else False
 def height(root):
-    parent = root
+    parent = deque([root])
     length = 0
-    has_children = False if (not parent.left) or (not parent.right) else True
     visited = list()
-    matrix = list()
-    queue = deque([root])
-    heights = []
-    node = queue.popleft()
-    while has_children:
-        current = node
-        print('current', current.info)
-        verse = [node.info, node.left, node.right, length]
-        matrix.append(verse)
-        if node.left:
-            length += 1
-            current = node.left
-            visited.append(current)
-        elif node.right:
-            length += 1
-            current = node.right
-            visited.append(current)
-        has_children = False if (not current.left) or (not current.right) else True
+    while len(parent) > 0:
+        node = parent.popleft()
+        print('parent', node.info)
+        left_child = 0 if not node.left else node.left
+        right_child = 0 if not node.right else node.right
+        parent_set = [node, left_child, right_child]
+        visited.append([node.info, left_child, right_child, length])
+        print('parent_set', parent_set)
+        print('visited', visited)
+        if has_child(node):
+            if has_both_child(node):
+                # length += 1
+                parent.append(node.left)
+                parent.append(node.right)
+            elif left_child:
+                length += 1
+                parent.append(node.left)
+                # left_child = 0 if not node.left else node.left
+                # right_child = 0 if not node.right else node.right
+                # child_set = [node, left_child, right_child]
+                # print('child_set', child_set)
+                # diff = set(child_set).difference(set(parent_set))
+                # if diff:
+                #     diff.remove(0)
+                #     parent.append(list(diff)[-1])
+
+                # print('diff', diff)
+            elif right_child:
+                length += 1
+                parent.append(node.right)
+                # node = node.left
+                # left_child = 0 if not node.left else node.left
+                # right_child = 0 if not node.right else node.right
+                # child_set = [node, left_child, right_child]
+                # print('child_set', child_set)
+                # diff = set(child_set).difference(set(parent_set))
+                # if diff:
+                #     diff.remove(0)
+                #     parent.append(list(diff)[-1])
+        else:
+            # go back to mother set and pop out a new element
+            print(parent)
+            continue
+    return length
 
 
 tree = BinarySearchTree()
@@ -67,6 +96,5 @@ tree.create(2)
 tree.create(7)
 tree.create(9)
 tree.create(1)
-#
-# print('root', tree.root)
-# print(height(tree.root))
+
+print('height', height(tree.root))
