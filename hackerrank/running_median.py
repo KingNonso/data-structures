@@ -1,21 +1,22 @@
 """ Find the Running Median"""
-
+from collections import deque
 def runningMedian(a):
-    run = []
+    p = deque(a)
+    run = list()
     new = []
-    for i in a:
-        new.append(i)
+    while len(p) > 0:
+        t = p.popleft()
+        print(t)
+        new.append(t)
         s = sorted(new)
         lenght = len(s)
         q, r = divmod(lenght, 2)
         if r < 1:
-            h = (s[q] + s[q - 1])/2
+            h = (s[q] + s[q - 1]) / 2
         else:
             h = s[q]
         run.append(h)
     return run
-
-
 
 
 
