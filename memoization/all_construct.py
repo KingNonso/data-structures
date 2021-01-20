@@ -8,11 +8,11 @@ def all_construct(target, words, memo={}):
         if word in target and target.index(word) == 0:
             suffix = target[len(word):]
             # print(word, ':', target, '->', suffix)
-            suffixWays = all_construct(suffix, words, memo)
-            if len(suffixWays):
-                targetWays = list(map(lambda x: [word, *x], suffixWays))
-                # print(target, '>', targetWays, '>>', suffixWays)
-                result.extend(targetWays)
+            suffix_ways = all_construct(suffix, words, memo)
+            if len(suffix_ways):
+                target_ways = list(map(lambda x: [word, *x], suffix_ways))
+                # print(target, '>', target_ways, '>>', suffix_ways)
+                result.extend(target_ways)
     memo[target] = result
     return result
 
